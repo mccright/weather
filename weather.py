@@ -3,16 +3,19 @@
 # Return a terse weather report using data from an api.openweathermap.org service.
 # Examples:
 #  matt@hostname:/testing/$ python3 weather.py
-#  2023-12-23 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
+#  2023-12-20 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c denver
 #  2023-12-10 13:10, 62.85°F, feels like 59.83°F, wind SSW 2.71 m/h, clear sky, humidity 21%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c chicago -n us -f weather.ini
-#  2023-12-29 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
+#  2023-12-20 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c rome -n it
-#  2023-12-30 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
+#  2023-12-20 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
+#
+#  matt@hostname:/testing/$ python3 weather.py -c pune -n in
+#  2023-12-20 11:35, 68.27°F, feels like 66.63°F, wind E 5.48 m/h, overcast clouds, humidity 39%
 #
 #  matt@hostname:/testing/$ python3 weather.py -h
 #  usage: weather [-h] [-d] [-l LANGUAGE] [-c CITY_NAME] [-n NATION_NAME] [-u UNITS_OF_MEASUREMENT] [-f CONFIG_FILE_NAME]
