@@ -38,6 +38,7 @@ fi
 ```
 
 ### Examples:  
+*Without using the ```alias``` approach outlined above, to demonstrate command line options...*  
 ```terminal
 matt@hostname:/testing$ python3 weather.py
 2023-12-23 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
