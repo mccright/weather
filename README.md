@@ -20,7 +20,14 @@ fi
 I have been using giroutte long enough to know what I want to see in my terminal, so it seemed rational to just code up a short script to fetch openweathermap.org data myself.  
 
 ### This utility:  
-Returns a terse weather report using data from an api.openweathermap.org service on a single line in my standard terminal configuration.  
+Returns a terse weather report using data from an api.openweathermap.org service on a single line in my standard terminal configuration.  The report includes: 
+* date and time of weather measurements  
+* measured temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius)  
+* "feels like" temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius or Kelvin)  
+* wind direction  
+* wind speed, defaults to miles/hour (change via command line/alias or default in code for km/hour)  
+* humidity in percent  
+
 This script requires an [OpenWeather API key](https://openweathermap.org/appid) (free for 1 call per second -- put it in the configuration file).  
 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
@@ -41,42 +48,47 @@ fi
 *Without using the ```alias``` approach outlined above, to demonstrate command line options...*  
 ```terminal
 matt@hostname:/testing$ python3 weather.py
-2023-12-23 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
+2023-12-19 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
 
 matt@hostname:/testing$ python3 weather.py -c denver
-2023-12-10 13:10, 62.85°F, feels like 59.83°F, wind SSW 2.71 m/h, clear sky, humidity 21%
+2023-12-19 13:10, 62.85°F, feels like 59.83°F, wind SSW 2.71 m/h, clear sky, humidity 21%
 
 matt@hostname:/testing$ python3 weather.py -c chicago -n us -f weather.ini
-2023-12-29 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
+2023-12-19 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
 
 matt@hostname:/testing$ python3 weather.py -c rome -n it
-2023-12-30 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
+2023-12-19 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
 
 matt@hostname:/testing$ python3 weather.py -c edinburgh -n uk
-2023-12-58 16:58, 43.02°F, feels like 34.54°F, wind WSW 19.57 m/h, clear sky, humidity 82%
+2023-12-19 16:58, 43.02°F, feels like 34.54°F, wind WSW 19.57 m/h, clear sky, humidity 82%
 
 matt@hostname:/testing$ python3 weather.py -c santiago -n cl
-2023-12-01 17:01, 71.17°F, feels like 70.05°F, wind SW 14.97 m/h, smoke, humidity 44%
+2023-12-19 17:01, 71.17°F, feels like 70.05°F, wind SW 14.97 m/h, smoke, humidity 44%
 
 matt@hostname:/testing$ python3 weather.py -c nairobi -n ke
-2023-12-07 17:07, 63.72°F, feels like 63.64°F, wind NNE 6.91 m/h, broken clouds, humidity 82%
+2023-12-19 17:07, 63.72°F, feels like 63.64°F, wind NNE 6.91 m/h, broken clouds, humidity 82%
 
 matt@hostname:/testing$ python3 weather.py -c "los angeles" -n us
-2023-12-13 17:13, 63.43°F, feels like 63.09°F, wind SE 9.22 m/h, overcast clouds, humidity 77%
+2023-12-19 17:13, 63.43°F, feels like 63.09°F, wind SE 9.22 m/h, overcast clouds, humidity 77%
 
 matt@hostname:/testing$ python3 weather.py -h
-usage: weather [-h] [-d] [-c CITY_NAME] [-n NATION_NAME] [-f CONFIG_FILE_NAME]
-  
+usage: weather [-h] [-d] [-l LANGUAGE] [-c CITY_NAME] [-n NATION_NAME] [-u UNITS_OF_MEASUREMENT] [-f CONFIG_FILE_NAME]
+
 weather: a terminal script to fetch current weather from openweathermap.org
-  
-optional arguments:
-    -h, --help            show this help message and exit
-    -d, --debug           Use to send debug logging to console
-    -c CITY_NAME, --city_name CITY_NAME
-                          Either collect the target city name. Or just use the default city name.
-    -n NATION_NAME, --nation_name NATION_NAME
-                          Either collect the target nation name. Or just use the default country name
-    -f CONFIG_FILE_NAME, --config_file_name CONFIG_FILE_NAME
-                          Name of the configuration file.
+
+options:
+  -h, --help            show this help message and exit
+  -d, --debug           Use to send debug logging to console
+  -l LANGUAGE, --language LANGUAGE
+                        Either collect the language. Or just use the default language.
+  -c CITY_NAME, --city_name CITY_NAME
+                        Either collect the target city name. Or just use the default city name.
+  -n NATION_NAME, --nation_name NATION_NAME
+                        Either collect the target nation name. Or just use the default country name
+  -u UNITS_OF_MEASUREMENT, --units_of_measurement UNITS_OF_MEASUREMENT
+                        Changes temp and wind speed units. Default: "imperial" Options are: "standard" (Kelvin/km),
+                        "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units.
+  -f CONFIG_FILE_NAME, --config_file_name CONFIG_FILE_NAME
+                        Name of the configuration file.
 ```
 
