@@ -28,12 +28,12 @@ Returns a terse weather report using [data](https://openweathermap.org/current#d
 * wind speed, defaults to miles/hour (change via command line/alias or default in code for km/hour)  
 * humidity in percent  
 
-This script requires an [OpenWeather API key](https://openweathermap.org/appid) (free for 1 call per second -- put it in the configuration file).  It is easy to [sign-up for an account](https://openweathermap.org/home/sign_up) and then [get the required key](https://home.openweathermap.org/api_keys).  
+This script requires an [OpenWeather API key](https://openweathermap.org/appid) (*free for 1 call per second*) -- put it in the configuration file.  It is easy to [sign-up for an account](https://openweathermap.org/home/sign_up) and then [get the required key](https://home.openweathermap.org/api_keys).  
 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
 
 ### Installation:
-I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path.  Then add a shell alias (*with command line options to meet your needs*) analogous to the example below:  
+I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path (*or not, for more resistance to abuse*).  Then add a shell alias (*with command line options to meet your needs*) analogous to the example below:  
 
 ```terminal
 # Get the current weather
