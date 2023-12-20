@@ -1,12 +1,12 @@
 # weather
 Display one-line of weather information in your terminal for any city+country supported on [OpenWeather](https://openweathermap.org/).  
 
-If this is something you are considering, look at the vastly superior [https://github.com/gourlaysama/girouette](https://github.com/gourlaysama/girouette)!  It is an exceptionally capable and flexible utility for displaying OpenWeather information in a terminal.  
+If this is something you are considering, look at the vastly superior [https://github.com/gourlaysama/girouette](https://github.com/gourlaysama/girouette)!  It is an exceptionally capable and flexible utility for displaying OpenWeather information in a terminal and may be a perfect for many.  
 
 ### Why not girouette?  
-I have moved/added my Linux and Windows environments too many times in recent years.  Some of those moves involved more time than I will admit reconfiguring my new giroutte installation.  
+I have moved/added my Linux and Windows endpoints too many times in recent years.  Some of those moves involved investing more time than I will admit reconfiguring my new giroutte installation.  
 
-After giroutte installation and configuration, on Linux I added a bash alias that mapped the command "weather" to giroutte.  On Windows I did an analogous "*alias*" using a command file (*and later Powershell*).  
+After giroutte installation and configuration, on Linux I add a bash alias that maps the command "weather" to giroutte.  On Windows I did an analogous "*alias*" using a command file (*and later Powershell*).  
 Here is an example for Linux from my .bash_aliases file:  
 
 ```terminal
@@ -21,7 +21,7 @@ I have been using giroutte long enough to know what I want to see in my terminal
 
 ### This utility:  
 Returns a terse weather report using data from an api.openweathermap.org service on a single line in my standard terminal configuration.  The report includes: 
-* date and time of weather measurements  
+* date and time of weather measurements (in your local time zone if it can be determined by OpenWeatherMap)  
 * measured temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius)  
 * "feels like" temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius or Kelvin)  
 * wind direction  
@@ -33,7 +33,7 @@ This script requires an [OpenWeather API key](https://openweathermap.org/appid) 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
 
 ### Installation:
-I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path.  Then add a shell alias analogous to the example below:  
+I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path.  Then add a shell alias (*with command line options to meet your needs*) analogous to the example below:  
 
 ```terminal
 # Get the current weather
@@ -42,6 +42,11 @@ I assume that you already have Python installed and use it regularly.  Clone thi
 if [ -x ~/bin/weather.py ]; then
         alias weather='/usr/bin/python3 ~/bin/weather.py'
 fi
+```
+
+In a Windows-only environment you can also set up a Windows shortcut pointing to (*with paths that match your endpoint and with command line options that meet your needs*):  
+```terminal
+C:\Windows\System32\cmd.exe /K "C:\PROGRA~1\Python311\python.exe  C:\testing\weather.py"
 ```
 
 ### Examples:  
