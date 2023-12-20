@@ -64,6 +64,9 @@ matt@hostname:/testing$ python3 weather.py -c chicago -n us -f weather.ini
 matt@hostname:/testing$ python3 weather.py -c rome -n it
 2023-12-19 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
 
+matt@hostname:/testing/$ python3 weather.py -c pune -n in
+2023-12-20 11:35, 68.27°F, feels like 66.63°F, wind E 5.48 m/h, overcast clouds, humidity 39%
+
 matt@hostname:/testing$ python3 weather.py -c edinburgh -n uk
 2023-12-19 16:58, 43.02°F, feels like 34.54°F, wind WSW 19.57 m/h, clear sky, humidity 82%
 
