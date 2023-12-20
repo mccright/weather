@@ -28,13 +28,14 @@
 #                          Either collect the target city name. Or just use the default city name.
 #    -n NATION_NAME, --nation_name NATION_NAME
 #                         Either collect the target nation name. Or just use the default country name
-#  -u UNITS_OF_MEASUREMENT, --units_of_measurement UNITS_OF_MEASUREMENT
+#    -u UNITS_OF_MEASUREMENT, --units_of_measurement UNITS_OF_MEASUREMENT
 #                        Changes temp and wind speed units. Default: "imperial" Options are: "standard" (Kelvin/km),
 #                        "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units.
 #    -f CONFIG_FILE_NAME, --config_file_name CONFIG_FILE_NAME
 #                         Name of the configuration file.
+#
+# Yes, I understand that this code has some long lines.
 
-import os
 import argparse
 import sys
 import datetime
@@ -51,7 +52,9 @@ DEFAULT_CONFIG_FILE="weather.ini"
 # "standard" (Kelvin/km), "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units are available 
 DEFAULT_UNITS="imperial"
 
-# Get value from a config file: https://github.com/mccright/PythonStuff/blob/main/otherNotes.md#get-values-from-a-config-file
+
+# Get value from a config file: 
+# https://github.com/mccright/PythonStuff/blob/main/otherNotes.md#get-values-from-a-config-file
 def get_config(filename, section, val):
     config = configparser.ConfigParser()
     config.read([filename])
@@ -118,6 +121,7 @@ parser.add_argument(
 
 arglist = parser.parse_args()
 
+# Finished setting up the parser
 
 # Thank you Matt Arderne at https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f?permalink_comment_id=3769668#gistcomment-3769668 
 # for the calculate_bearing(d) function  
