@@ -40,6 +40,7 @@
 # Yes, I understand that this code has some long lines.
 
 import argparse
+from argparse import RawTextHelpFormatter
 import sys
 import datetime
 import configparser
@@ -68,9 +69,12 @@ def get_config(filename, section, val):
 
 
 # set up the parser
+# Use https://docs.python.org/3/library/argparse.html#argparse.RawTextHelpFormatter
+# to wrap lines better in help messages
 parser = argparse.ArgumentParser(
     prog="weather",
-    description="weather: a terminal script to fetch current weather from openweathermap.org")
+    description="weather: a terminal script to fetch current weather from openweathermap.org",
+    formatter_class=RawTextHelpFormatter)
 
 # add all the arguments
 parser.add_argument(
@@ -86,7 +90,8 @@ parser.add_argument(
     required=False,
     default=DEFAULT_LANGUAGE,
     action='store',
-    help="Either collect the language.\nOr just use the default language.")
+    help="Either collect the language.\n \
+Or just use the default language.")
 
 parser.add_argument(
     # Either collect the target city name. Or just use the default city name.
@@ -94,7 +99,8 @@ parser.add_argument(
     required=False,
     default=DEFAULT_CITY_NAME,
     action='store',
-    help="Either collect the target city name.\nOr just use the default city name.")
+    help="Either collect the target city name.\n \
+Or just use the default city name.")
 
 parser.add_argument(
     # Either collect the target nation/country name. Or just use the default country name.
@@ -102,7 +108,8 @@ parser.add_argument(
     required=False,
     default=DEFAULT_COUNTRY_NAME,
     action='store',
-    help="Either collect the target nation name.\nOr just use the default country name")
+    help="Either collect the target nation name.\n \
+Or just use the default country name")
 
 parser.add_argument(
     # Either collect the unit or measurement or use the default unit.
@@ -110,10 +117,10 @@ parser.add_argument(
     required=False,
     default=DEFAULT_UNITS,
     action='store',
-    help="Changes temp and wind speed units. Default: \"imperial\" \
-            Options are: \"standard\" (Kelvin/km), \
-            \"metric\" (Celsius/km), and \
-            \"imperial\" (Fahrenheit/miles) units.")
+    help="Changes temp and wind speed units. Default: \"imperial\"\n \
+Options are: \"standard\" (Kelvin/km),\n \
+\"metric\" (Celsius/km), and\n \
+\"imperial\" (Fahrenheit/miles) units.")
 
 parser.add_argument(
     "-f", "--config_file_name",
