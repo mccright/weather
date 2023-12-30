@@ -88,14 +88,19 @@ optional arguments:
   -h, --help            show this help message and exit
   -d, --debug           Use to send debug logging to console (unfinished)
   -l LANGUAGE, --language LANGUAGE
-                        Either collect the language. Or just use the default language.
+                        Either collect the language.
+                         Or just use the default language.
   -c CITY_NAME, --city_name CITY_NAME
-                        Either collect the target city name. Or just use the default city name.
+                        Either collect the target city name.
+                         Or just use the default city name.
   -n NATION_NAME, --nation_name NATION_NAME
-                        Either collect the target nation name. Or just use the default country name
+                        Either collect the target nation name.
+                         Or just use the default country name
   -u UNITS_OF_MEASUREMENT, --units_of_measurement UNITS_OF_MEASUREMENT
-                        Changes temp and wind speed units. Default: "imperial" Options are: "standard" (Kelvin/km),
-                        "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units.
+                        Changes temp and wind speed units. Default: "imperial"
+                         Options are: "standard" (Kelvin/km),
+                         "metric" (Celsius/km), and
+                         "imperial" (Fahrenheit/miles) units.
   -f CONFIG_FILE_NAME, --config_file_name CONFIG_FILE_NAME
                         Name of the configuration file.
 matt@hostname:/testing$
