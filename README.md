@@ -58,7 +58,7 @@ matt@hostname:/testing$ python3 weather.py
 matt@hostname:/testing$ python3 weather.py -c denver
 2023-12-19 13:10, 62.85°F, feels like 59.83°F, wind SSW 2.71 m/h, clear sky, humidity 21%
 
-matt@hostname:/testing$ python3 weather.py -c chicago -n us -f weather.ini
+matt@hostname:/testing$ python3 weather.py -c chicago -n us -f ~/secured/weather.ini
 2023-12-19 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
 
 matt@hostname:/testing$ python3 weather.py -c rome -n it
@@ -84,9 +84,9 @@ usage: weather [-h] [-d] [-l LANGUAGE] [-c CITY_NAME] [-n NATION_NAME] [-u UNITS
 
 weather: a terminal script to fetch current weather from openweathermap.org
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
-  -d, --debug           Use to send debug logging to console
+  -d, --debug           Use to send debug logging to console (unfinished)
   -l LANGUAGE, --language LANGUAGE
                         Either collect the language. Or just use the default language.
   -c CITY_NAME, --city_name CITY_NAME
@@ -98,5 +98,6 @@ options:
                         "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units.
   -f CONFIG_FILE_NAME, --config_file_name CONFIG_FILE_NAME
                         Name of the configuration file.
+matt@hostname:/testing$
 ```
 
