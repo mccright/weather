@@ -134,21 +134,21 @@ def get_config(filename, section, val):
     try:
         config.read([filename])
     except Exception as e:
-        raise(f"Failure getting config file. Filename: {filename}. Error: {e}")
+        print(f"Failure getting config file. Filename: {filename}. Error: {e}")
         exit()
     # create an object for a specific config file section
     try:
         weather = config[section]
     except Exception as e:
-        print(f"Unknown config section problem. You requested section: {section}.")
+        print(f"Unknown config section problem. You requested section: {section}. {e}")
         exit()
-    if weather == None:
+    if weather is None:
         print(f"Empty or missing config section \"weather.\" ")
         exit()
     # now get the values from that object
     try:
         target_value = weather.get(val)
-        if target_value == None:
+        if target_value is None:
             print(f"Empty or missing config value. target_value = \"{target_value}\" ")
             exit()
     except Exception as e:
