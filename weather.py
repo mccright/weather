@@ -53,7 +53,9 @@ DEFAULT_CITY_NAME="urbandale"
 DEFAULT_COUNTRY_NAME="us"
 DEFAULT_CONFIG_FILE="weather.ini"
 # The variable below changes temp and wind speed units. 
-# "standard" (Kelvin/km), "metric" (Celsius/km), and "imperial" (Fahrenheit/miles) units are available 
+#    "standard" (Kelvin/km), 
+#    "metric" (Celsius/km), and 
+#    "imperial" (Fahrenheit/miles) units are available 
 DEFAULT_UNITS="imperial"
 
 
@@ -134,7 +136,7 @@ arglist = parser.parse_args()
 # Finished setting up the parser
 
 # Thank you Matt Arderne at https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f?permalink_comment_id=3769668#gistcomment-3769668 
-# for the calculate_bearing(d) function  
+# for the excellent calculate_bearing(d) function  
 
 def calculate_bearing(d):
     dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
@@ -178,7 +180,11 @@ if __name__ == '__main__':
         posixdt = datetime.datetime.fromtimestamp(int(jsonstr['dt']))
         reporttime = datetime.date.strftime(posixdt, "%Y-%m-%d %R")
         winddir = calculate_bearing(jsonstr['wind']['deg'])
-        print(f"{reporttime}, {jsonstr['main']['temp']}°F, feels like {jsonstr['main']['feels_like']}°F, wind {winddir} {jsonstr['wind']['speed']} m/h, {jsonstr['weather'][0]['description']}, humidity {jsonstr['main']['humidity']}%")
+        print(f"{reporttime}, {jsonstr['main']['temp']}°F, feels like \
+{jsonstr['main']['feels_like']}°F, wind {winddir} \
+{jsonstr['wind']['speed']} m/h, \
+{jsonstr['weather'][0]['description']}, \
+humidity {jsonstr['main']['humidity']}%")
     except Exception as e:
         print("Failed this run. Error: {} -- {}".format(e, (sys.exc_info())))
 
