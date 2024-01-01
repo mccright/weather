@@ -153,7 +153,7 @@ def get_config(filename, section, val):
             exit()
     except Exception as e:
         print(f"Failure getting config value \"{val}\" from file \"{filename}\". Error: {e}")        
-            exit()
+        exit()
     return target_value
 
 
