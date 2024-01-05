@@ -59,17 +59,6 @@ DEFAULT_CONFIG_FILE="weather.ini"
 DEFAULT_UNITS="imperial"
 
 
-# Get value from a config file: 
-# https://github.com/mccright/PythonStuff/blob/main/otherNotes.md#get-values-from-a-config-file
-def get_config(filename, section, val):
-    config = configparser.ConfigParser()
-    config.read([filename])
-    # create an object for a specific config file section
-    weather = config[section]
-    # now get the values from that object
-    return weather.get(val)
-
-
 # set up the parser
 # Use https://docs.python.org/3/library/argparse.html#argparse.RawTextHelpFormatter
 # to wrap lines better in help messages
@@ -96,7 +85,8 @@ parser.add_argument(
 Or just use the default language.")
 
 parser.add_argument(
-    # Either collect the target city name. Or just use the default city name.
+    # Either collect the target city name. 
+    #Or just use the default city name.
     "-c", "--city_name",
     required=False,
     default=DEFAULT_CITY_NAME,
@@ -105,7 +95,8 @@ parser.add_argument(
 Or just use the default city name.")
 
 parser.add_argument(
-    # Either collect the target nation/country name. Or just use the default country name.
+    # Either collect the target nation/country name. 
+    # Or just use the default country name.
     "-n", "--nation_name",
     required=False,
     default=DEFAULT_COUNTRY_NAME,
@@ -131,33 +122,73 @@ parser.add_argument(
     action='store',
     help="Name of the configuration file.")
 
-arglist = parser.parse_args()
+# arglist = parser.parse_args()
 
 # Finished setting up the parser
 
-# Thank you Matt Arderne at https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f?permalink_comment_id=3769668#gistcomment-3769668 
-# for the excellent calculate_bearing(d) function  
 
-def calculate_bearing(d):
+# Get value from a config file: 
+# https://github.com/mccright/PythonStuff/blob/main/otherNotes.md#get-values-from-a-config-file
+def get_config(filename, section, val):
+    config = configparser.ConfigParser()
+    try:
+        config.read([filename])
+    except Exception as e:
+        print(f"Failure getting config file. Filename: {filename}. Error: {e}")
+        exit()
+    # create an object for a specific config file section
+    try:
+        weather = config[section]
+    except Exception as e:
+        print(f"Unknown config section problem. You requested section: {section}. {e}")
+        exit()
+    if weather is None:
+        print(f"Empty or missing config section \"weather.\" ")
+        exit()
+    # now get the values from that object
+    try:
+        target_value = weather.get(val)
+        if target_value is None:
+            print(f"Empty or missing config value. target_value = \"{target_value}\" ")
+            exit()
+    except Exception as e:
+        print(f"Failure getting config value \"{val}\" from file \"{filename}\". Error: {e}")        
+        exit()
+    return target_value
+
+
+def build_citynation(city_name: str, nation_name: str):
+    try: 
+        cityname = str(city_name).lower()
+        citynation = cityname + str(",") + str(nation_name).lower()
+    except Exception as e:
+        print(f"Failure getting input or Improper input. Error: {e}")
+        exit()
+    return citynation
+
+
+# Thank you Matt Arderne at https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f?permalink_comment_id=3769668#gistcomment-3769668 
+# for the excellent calculate_bearing(d) function    
+def calculate_bearing(d: int):
     dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
     ix = int(round(d / (360. / len(dirs))))
     return dirs[ix % len(dirs)]
 
 
-if __name__ == '__main__':
-
+def main():
+    # parse the arg object
+    arglist = parser.parse_args()
     try:
+        # ToDo: fix the two hard-coded variables below
         OWMTOKEN = get_config(arglist.config_file_name, 'weather', 'owmtokenA')
     except Exception as e:
-        print("Failure getting config file content. Error: {} -- {}".format(e, (sys.exc_info())))
+        print(f"Generic failure getting config file content.\n \
+from file \"{arglist.config_file_name}\"\n \
+config section=\"weather\",\n \
+value=\"owmtokenA\"\n \
+Error: {e} -- {(sys.exc_info())}")
         exit()
-    # os.environ['WEATHER1'] # os.getenv('WEATHER1', default=None)
-    try:
-        cityname = arglist.city_name
-        citynation = cityname + str("," + arglist.nation_name)
-    except Exception as e:
-        print("Failure getting input or Improper input. Error: {} -- {}".format(e, (sys.exc_info())))
-        exit()
+    citynation = build_citynation(str(arglist.city_name), str(arglist.nation_name))
     url = (f"https://api.openweathermap.org/data/2.5/weather?appid={OWMTOKEN}&lang={arglist.language}&units={arglist.units_of_measurement}&q={citynation}")
     # print(f"{url}")
     try:
@@ -171,7 +202,7 @@ if __name__ == '__main__':
         print(f"Failed with TooManyRedirects this run. Is the URL correct?: {url}")
         raise SystemExit(e)
     except requests.exceptions.RequestException as e:
-    # Some other error -- little chance to recover. bail.
+        # Some other error -- little chance to recover. bail.
         print(f"Failed with TooManyRedirects this run.")
         raise SystemExit(e)
     try:
@@ -179,12 +210,25 @@ if __name__ == '__main__':
         #print(f"{jsonstr}")
         posixdt = datetime.datetime.fromtimestamp(int(jsonstr['dt']))
         reporttime = datetime.date.strftime(posixdt, "%Y-%m-%d %R")
+    except Exception as e:
+        print(f"Failed this run. Bad response json? Error: ")
+        raise SystemExit(e)
+    try:
         winddir = calculate_bearing(jsonstr['wind']['deg'])
+    except Exception as e:
+        print("Failed this run. Bad wind degree int? Error: ")
+        raise SystemExit(e)
+    # Now print the data to the command line.
+    try:
         print(f"{reporttime}, {jsonstr['main']['temp']}°F, feels like \
 {jsonstr['main']['feels_like']}°F, wind {winddir} \
 {jsonstr['wind']['speed']} m/h, \
 {jsonstr['weather'][0]['description']}, \
 humidity {jsonstr['main']['humidity']}%")
     except Exception as e:
-        print("Failed this run. Error: {} -- {}".format(e, (sys.exc_info())))
+        print("Failed this run. Problem printing to the terminal. Error: ")
+        raise SystemExit(e)
 
+
+if __name__ == '__main__':
+    main()
