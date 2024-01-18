@@ -37,10 +37,10 @@ I assume that you already have Python installed and use it regularly.  Clone thi
 
 ```terminal
 # Get the current weather
-# Depends on a config file in ~/bin/weather.ini (or some 
-# other location, which you will specify on the command line)
+# This example depends on a config file in ~/bin/weather.ini (without the '-f') 
+#  (or someother location, which you will specify on the command line as shown below)
 if [ -x ~/bin/weather.py ]; then
-        alias weather='/usr/bin/python3 ~/bin/weather.py'
+        alias weather='/usr/bin/python3 ~/bin/weather.py' -f ~/path_to_config_file/weather.ini
 fi
 ```
 
