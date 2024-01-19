@@ -32,15 +32,64 @@ This script requires an [OpenWeather API key](https://openweathermap.org/appid) 
 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
 
+### Lookup the abbreviation, country code, and/or Lat.Lon. for a city you want to monitor.  
+You can use the [OpenWeatherMap geo-coding API](https://openweathermap.org/api/geocoding-api) to lookup the country code or lat/lon for a given city.
+
+In the example below, we request the locations named "pune" and the API returned three: Pune, India; Pune, Indonesia; and Pune, Timor Leste.  In my case, I wanted Pune, India, so my city/nation would be ```python3 weather.py -c r pune -n in```.
+
+```terminal
+curl https://api.openweathermap.org/geo/1.0/direct?q=pune&limit=5&appid=[put your API key here]
+[
+  {
+    "name": "Pune",
+    "local_names": {
+      "mr": "पुणे शहर",
+      "ar": "مدينة بونه",
+      "ml": "പൂണെ",
+      "te": "పూణే",
+      "en": "Pune",
+      "zh": "浦那",
+      "hi": "पुणे",
+      "kn": "ಪುಣೆ",
+      "pa": "ਪੁਣੇ",
+      "he": "פונה",
+      "ur": "شہر پونے",
+      "ps": "پونی",
+      "ru": "Пуне",
+      "fa": "پونه"
+    },
+    "lat": 18.521428,
+    "lon": 73.8544541,
+    "country": "IN",
+    "state": "Maharashtra"
+  },
+  {
+    "name": "Pune",
+    "lat": 1.7837578,
+    "lon": 127.8542945,
+    "country": "ID",
+    "state": "North Maluku"
+  },
+  {
+    "name": "Pune",
+    "lat": -9.36924,
+    "lon": 124.31618,
+    "country": "TL",
+    "state": "Oecussi-Ambeno"
+  }
+]
+```
+
+
 ### Installation:
 I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path (*or not, for more resistance to abuse*).  Then add a shell alias (*with command line options to meet your needs*) analogous to the example below:  
 
 ```terminal
 # Get the current weather
-# Depends on a config file in ~/bin/weather.ini (or some 
-# other location, which you will specify on the command line)
+# This example depends on a config file in ~/bin/weather.ini (without the '-f') 
+#  (or someother location, which you will specify on the command line as shown below)
 if [ -x ~/bin/weather.py ]; then
-        alias weather='/usr/bin/python3 ~/bin/weather.py'
+        alias weather='/usr/bin/python3 ~/bin/weather.py' -f ~/path_to_config_file/weather.ini
 fi
 ```
 
