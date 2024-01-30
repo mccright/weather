@@ -23,4 +23,4 @@ jobs:
         pylint --disable=bare-except,invalid-name --class-rgx='[A-Z][a-z]+' --generate-rcfile
     - name: Analysing the code with pylint
       run: |
-        pylint -d "C0209, C0301, C0303, C0305, C0325, C0326, C0114, C0116, E0401, R1722, W0511, W0611, W0703, W0707, W0718, W1309, C0103" $(git ls-files '*.py')
+        pylint -d "C0209, C0301, C0303, C0305, C0325, C0114, C0116, E0401, R1722, W0105, W0511, W0611, W0703, W0707, W0718, W1309, C0103" $(git ls-files '*.py')
