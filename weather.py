@@ -3,16 +3,16 @@
 # Return a terse weather report using data from an api.openweathermap.org service.
 # Examples:
 #  matt@hostname:/testing/$ python3 weather.py
-#  2023-12-20 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
+#  2023-12-23 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c denver
 #  2023-12-10 13:10, 62.85°F, feels like 59.83°F, wind SSW 2.71 m/h, clear sky, humidity 21%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c chicago -n us -f weather.ini
-#  2023-12-20 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
+#  2023-12-29 13:29, 31.6°F, feels like 22.51°F, wind SSW 11.5 m/h, scattered clouds, humidity 49%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c rome -n it
-#  2023-12-20 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
+#  2023-12-30 13:30, 49.57°F, feels like 48.79°F, wind SSE 3.44 m/h, clear sky, humidity 62%
 #
 #  matt@hostname:/testing/$ python3 weather.py -c pune -n in
 #  2023-12-20 11:35, 68.27°F, feels like 66.63°F, wind E 5.48 m/h, overcast clouds, humidity 39%
@@ -41,11 +41,12 @@
 
 import argparse
 from argparse import RawTextHelpFormatter
-import sys
-import datetime
 import configparser
+import datetime
 import json
+import os
 import requests
+import sys
 
 # Set some defaults
 DEFAULT_LANGUAGE="en"
@@ -57,6 +58,8 @@ DEFAULT_CONFIG_FILE="weather.ini"
 #    "metric" (Celsius/km), and 
 #    "imperial" (Fahrenheit/miles) units are available 
 DEFAULT_UNITS="imperial"
+# Set the environment variable name that contains your API key
+API_KEY_VAR="OWM_API"
 
 
 # set up the parser
@@ -85,8 +88,7 @@ parser.add_argument(
 Or just use the default language.")
 
 parser.add_argument(
-    # Either collect the target city name. 
-    #Or just use the default city name.
+    # Either collect the target city name. Or just use the default city name.
     "-c", "--city_name",
     required=False,
     default=DEFAULT_CITY_NAME,
@@ -95,8 +97,7 @@ parser.add_argument(
 Or just use the default city name.")
 
 parser.add_argument(
-    # Either collect the target nation/country name. 
-    # Or just use the default country name.
+    # Either collect the target nation/country name. Or just use the default country name.
     "-n", "--nation_name",
     required=False,
     default=DEFAULT_COUNTRY_NAME,
@@ -122,54 +123,65 @@ parser.add_argument(
     action='store',
     help="Name of the configuration file.")
 
-# arglist = parser.parse_args()
-
 # Finished setting up the parser
+
+# Get value from the environment, which, ideally 
+# was sourced from your cloud secret store.
+def get_env_value(val_name: str) -> str:
+    try:
+        if val_name in os.environ:
+            OWM_API_VAL = os.environ.get(val_name)
+        else:
+            raise EnvironmentError(f"Failed because \"{val_name}\" is not set.")
+    except Exception as e:
+        print(f"Problem with environment variable: \"{val_name}\".")
+        raise SystemExit(e)
+    return OWM_API_VAL
 
 
 # Get value from a config file: 
 # https://github.com/mccright/PythonStuff/blob/main/otherNotes.md#get-values-from-a-config-file
-def get_config(filename, section, val):
+def get_config(filename: str, section: str, val: str) -> str:
     config = configparser.ConfigParser()
     try:
         config.read([filename])
     except Exception as e:
         print(f"Failure getting config file. Filename: {filename}. Error: {e}")
-        exit()
+        sys.exit()
     # create an object for a specific config file section
     try:
         weather = config[section]
     except Exception as e:
-        print(f"Unknown config section problem. You requested section: {section}. {e}")
-        exit()
-    if weather is None:
+        print(f"Unknown config section problem. You requested section: {section}. Error: {e}")
+        sys.exit()
+    if weather == None:
         print(f"Empty or missing config section \"weather.\" ")
-        exit()
+        sys.exit()
     # now get the values from that object
     try:
         target_value = weather.get(val)
-        if target_value is None:
+        if target_value == None:
             print(f"Empty or missing config value. target_value = \"{target_value}\" ")
-            exit()
+            sys.exit()
     except Exception as e:
         print(f"Failure getting config value \"{val}\" from file \"{filename}\". Error: {e}")        
-        exit()
+        sys.exit()
     return target_value
 
 
-def build_citynation(city_name: str, nation_name: str):
+def build_citynation(city_name: str, nation_name: str) -> str:
     try: 
         cityname = str(city_name).lower()
         citynation = cityname + str(",") + str(nation_name).lower()
     except Exception as e:
         print(f"Failure getting input or Improper input. Error: {e}")
-        exit()
+        sys.exit()
     return citynation
 
 
 # Thank you Matt Arderne at https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f?permalink_comment_id=3769668#gistcomment-3769668 
 # for the excellent calculate_bearing(d) function    
-def calculate_bearing(d: int):
+def calculate_bearing(d: int) -> str:
     dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
     ix = int(round(d / (360. / len(dirs))))
     return dirs[ix % len(dirs)]
@@ -178,8 +190,16 @@ def calculate_bearing(d: int):
 def main():
     # parse the arg object
     arglist = parser.parse_args()
+    # Use get_env_value() or get_config() function, depending on your setup.
+    # This approach assumes that you have an environment 
+    # variable "OWM_API" set with your OpenWeatherMap API key.
+    OWMTOKEN = get_env_value(API_KEY_VAR)
+    # Commented out the config file approach below because I am using an env var.
+    """
+    # This approach assumes that you have a configuration file "weather.ini"
+    # that contains your OpenWeatherMap API key.
     try:
-        # ToDo: fix the two hard-coded variables below
+        # ToDo: fix the hard-coded variables below
         OWMTOKEN = get_config(arglist.config_file_name, 'weather', 'owmtokenA')
     except Exception as e:
         print(f"Generic failure getting config file content.\n \
@@ -188,6 +208,8 @@ config section=\"weather\",\n \
 value=\"owmtokenA\"\n \
 Error: {e} -- {(sys.exc_info())}")
         exit()
+    """
+    # End of the config file code
     citynation = build_citynation(str(arglist.city_name), str(arglist.nation_name))
     url = (f"https://api.openweathermap.org/data/2.5/weather?appid={OWMTOKEN}&lang={arglist.language}&units={arglist.units_of_measurement}&q={citynation}")
     # print(f"{url}")
@@ -202,7 +224,7 @@ Error: {e} -- {(sys.exc_info())}")
         print(f"Failed with TooManyRedirects this run. Is the URL correct?: {url}")
         raise SystemExit(e)
     except requests.exceptions.RequestException as e:
-        # Some other error -- little chance to recover. bail.
+    # Some other error -- little chance to recover. bail.
         print(f"Failed with TooManyRedirects this run.")
         raise SystemExit(e)
     try:
