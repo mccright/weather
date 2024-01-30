@@ -45,8 +45,8 @@ import configparser
 import datetime
 import json
 import os
-import requests
 import sys
+import requests
 
 # Set some defaults
 DEFAULT_LANGUAGE="en"
@@ -154,13 +154,13 @@ def get_config(filename: str, section: str, val: str) -> str:
     except Exception as e:
         print(f"Unknown config section problem. You requested section: {section}. Error: {e}")
         sys.exit()
-    if weather == None:
+    if weather is None:
         print(f"Empty or missing config section \"weather.\" ")
         sys.exit()
     # now get the values from that object
     try:
         target_value = weather.get(val)
-        if target_value == None:
+        if target_value is None:
             print(f"Empty or missing config value. target_value = \"{target_value}\" ")
             sys.exit()
     except Exception as e:
