@@ -28,7 +28,7 @@ Returns a terse weather report using [data](https://openweathermap.org/current#d
 * wind speed, defaults to miles/hour (change via command line/alias or default in code for km/hour)  
 * humidity in percent  
 
-This script requires an [OpenWeather API key](https://openweathermap.org/appid) (*free for 1 call per second*) -- put it in the configuration file.  It is easy to [sign-up for an account](https://openweathermap.org/home/sign_up) and then [get the required key](https://home.openweathermap.org/api_keys).  
+This script requires an [OpenWeather API key](https://openweathermap.org/appid) (*free for 1 call per second*) -- put it in the configuration file *or* get it into your environment (ideally from your secret store, rather than a clear text file.  It is easy to [sign-up for an account](https://openweathermap.org/home/sign_up) and then [get the required key](https://home.openweathermap.org/api_keys).  
 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
 
@@ -86,7 +86,9 @@ I assume that you already have Python installed and use it regularly.  Clone thi
 
 ```terminal
 # Get the current weather
-# This example depends on a config file in ~/bin/weather.ini (without the '-f') 
+# This example depends on
+# A) your OpenWeatherMap API key is in the local environment (the default) *or*  
+# B) your OpenWeatherMap API key is in a config file in ~/bin/weather.ini (without the '-f') 
 #  (or someother location, which you will specify on the command line as shown below)
 if [ -x ~/bin/weather.py ]; then
         alias weather='/usr/bin/python3 ~/bin/weather.py' -f ~/path_to_config_file/weather.ini
