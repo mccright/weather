@@ -3,7 +3,7 @@ Display one-line of weather information in your terminal for any city+country su
 
 If this is something you are considering, look at the vastly superior [https://github.com/gourlaysama/girouette](https://github.com/gourlaysama/girouette)!  It is an exceptionally capable and flexible utility for displaying OpenWeather information in a terminal and may be a perfect for many.  
 
-### Why not girouette?  
+## Why not girouette?  
 I have moved/added my Linux and Windows endpoints too many times in recent years.  Some of those moves involved investing more time than I will admit reconfiguring my new giroutte installation.  
 
 After giroutte installation and configuration, on Linux I add a bash alias that maps the command "weather" to giroutte.  On Windows I did an analogous "*alias*" using a command file (*and later Powershell*).  
@@ -19,8 +19,8 @@ fi
 
 I have been using giroutte long enough to know what I want to see in my terminal, so it seemed rational to just code up a short script to fetch openweathermap.org data myself.  
 
-### This utility:  
-Returns a terse weather report using [data](https://openweathermap.org/current#data) from an [api.openweathermap.org service](https://openweathermap.org/current) on a single line in my standard terminal configuration.  The report includes: 
+## This utility:  
+Returns a terse weather report using [data](https://openweathermap.org/current#data) from an [api.openweathermap.org service](https://openweathermap.org/current) on a single line in my standard terminal configuration.  The report includes:  
 * date and time of weather measurements (in your local time zone if it can be determined by OpenWeatherMap)  
 * measured temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius)  
 * "feels like" temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius or Kelvin)  
@@ -32,7 +32,7 @@ This script requires an [OpenWeather API key](https://openweathermap.org/appid) 
 
 You can supply a city and nation on the command line.  City names having one or more spaces, must be surrounded by quotes (e.g. "los angeles").  The nation is specified using the 2-letter [ISO 3166 code](https://en.wikipedia.org/wiki/ISO_3166).  See the examples below.  
 
-### Lookup the abbreviation, country code, and/or Lat.Lon. for a city you want to monitor.  
+## Lookup the abbreviation, country code, and/or Lat.Lon. for a city you want to monitor.  
 You can use the [OpenWeatherMap geo-coding API](https://openweathermap.org/api/geocoding-api) to lookup the country code or lat/lon for a given city.
 
 In the example below, we request the locations named "pune" and the API returned three: Pune, India; Pune, Indonesia; and Pune, Timor Leste.  In my case, I wanted Pune, India, so my city/nation would be ```python3 weather.py -c r pune -n in```.
@@ -81,14 +81,14 @@ curl https://api.openweathermap.org/geo/1.0/direct?q=pune&limit=5&appid=[put you
 ```
 
 
-### Installation:
+## Installation:
 I assume that you already have Python installed and use it regularly.  Clone this repository (```git clone https://github.com/mccright/weather-in-terminal.git```) and make any customizations to meet your needs.  Then locate ```weather.py``` and ```weather.ini``` in your local bin path (*or not, for more resistance to abuse*).  Then add a shell alias (*with command line options to meet your needs*) analogous to the example below:  
 
 ```terminal
 # Get the current weather
 # This example depends on
-# A) your OpenWeatherMap API key is in the local environment (the default) *or*  
-# B) your OpenWeatherMap API key is in a config file in ~/bin/weather.ini (without the '-f') 
+# A) your OpenWeatherMap API key is in the local environment (the default) *or*
+# B) your OpenWeatherMap API key is in a config file in ~/bin/weather.ini (without the '-f')
 #  (or someother location, which you will specify on the command line as shown below)
 if [ -x ~/bin/weather.py ]; then
         alias weather='/usr/bin/python3 ~/bin/weather.py' -f ~/path_to_config_file/weather.ini
@@ -96,12 +96,15 @@ fi
 ```
 
 In a Windows-only environment you can also set up a Windows shortcut pointing to (*with paths that match your endpoint and with command line options that meet your needs*):  
+
 ```terminal
 C:\Windows\System32\cmd.exe /K "C:\PROGRA~1\Python311\python.exe  C:\testing\weather.py"
 ```
 
-### Examples:  
+## Examples:  
+
 *Without using the ```alias``` approach outlined above, to demonstrate command line options...*  
+
 ```terminal
 matt@hostname:/testing$ python3 weather.py
 2023-12-19 13:23, 42.51°F, feels like 34.74°F, wind S 16.11 m/h, broken clouds, humidity 40%
@@ -157,3 +160,18 @@ optional arguments:
 matt@hostname:/testing$
 ```
 
+## Other Python-Based CLI Weather Lookup Scripts  
+current-conditions-openweather  
+https://github.com/jfcarr/current-conditions-openweather/  
+Simple text output of current weather conditions, retrieved from OpenWeather API.  
+
+PyWeather  
+https://gitlab.com/o355/PyWeather  
+The fun way to check the weather in a terminal.  
+
+MesoPy (MesoWest API Wrapper): Current Weather Conditions  
+https://github.com/nick3499/mesowest_latest_ob  
+
+
+## Other Weather APIs to try  
+* Weather API https://github.com/weatherapicom/python  
