@@ -20,7 +20,7 @@ fi
 I have been using giroutte long enough to know what I want to see in my terminal, so it seemed rational to just code up a short script to fetch openweathermap.org data myself.  
 
 ## This utility:  
-Returns a terse weather report using [data](https://openweathermap.org/current#data) from an [api.openweathermap.org service](https://openweathermap.org/current) on a single line in my standard terminal configuration.  The report includes:  
+Returns a terse weather report using [data](https://openweathermap.org/current#data) from an [api.openweathermap.org service](https://openweathermap.org/current) on a single line in my standard terminal configuration.  I use it multiple times every day.  The report includes:  
 * date and time of weather measurements (in your local time zone if it can be determined by OpenWeatherMap)  
 * measured temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius)  
 * "feels like" temperature, defaults to Fahrenheit (change via command line/alias or default in code for Celsius or Kelvin)  
