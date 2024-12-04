@@ -89,10 +89,13 @@ I assume that you already have Python installed and use it regularly.  Clone thi
 # This example depends on
 # A) your OpenWeatherMap API key is in the local environment (the default) *or*
 # B) your OpenWeatherMap API key is in a config file in ~/bin/weather.ini (without the '-f')
-#  (or someother location, which you will specify on the command line as shown below)
-if [ -x ~/bin/weather.py ]; then
-        alias weather='/usr/bin/python3 ~/bin/weather.py' -f ~/path_to_config_file/weather.ini
-fi
+#  (or someother location, which you will specify on the command line or as shown below 
+#  in a bash alias, for example `-f path_to_config_file/weather.ini`)
+function weather() {
+  if [ -r ${HOME}/bin/weather.py ] && [ -r "${HOME}/.config/weather-in-terminal/weather.ini" ]; then
+        /usr/bin/python3 ${HOME}/bin/weather.py -f ${HOME}/.config/weather-in-terminal/weather.ini
+  fi
+}
 ```
 
 In a Windows-only environment you can also set up a Windows shortcut pointing to (*with paths that match your endpoint and with command line options that meet your needs*):  
